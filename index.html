@@ -1,127 +1,590 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ガジェット紹介サイト</title>
+<!doctype html><html lang="ja"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>ガジェラボ（仮）</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-    :root {
-        --accent: #3f72af;
-        --bg: #f4f6f8;
-        --card-bg: #ffffff;
-        --text: #222;
-        --sub: #666;
-    }
-    * { box-sizing: border-box; }
-    body {
-        margin: 0;
-        font-family: -apple-system, "Hiragino Sans", "Yu Gothic", sans-serif;
-        background: var(--bg);
-        color: var(--text);
-    }
-    header {
-        background: var(--accent);
-        color: #fff;
-        padding: 32px 20px;
-        text-align: center;
-    }
-    header h1 { margin: 0 0 8px; font-size: 24px; }
-    header p { margin: 0; opacity: 0.9; font-size: 14px; }
+/* Layout: 研究所の端末画面というコンセプトは活かしつつ、装飾は1箇所（起動画面パネル）に絞り、
+   他のセクションは余白とシンプルなカードで静かに見せる。単一ダークテーマ。 */
+:root{
+  color-scheme: dark;
+  --ink:#0a0d18;
+  --ink2:#0d1120;
+  --panel:rgba(255,255,255,.035);
+  --panel-hi:rgba(255,255,255,.06);
+  --line:rgba(255,255,255,.10);
+  --line-hi:rgba(255,255,255,.18);
+  --fg:#eef1fb;
+  --muted:#8d93b5;
+  --cyan:#5ce1ff;
+  --pink:#ff86c9;
+  --hud:#46eb78;
+  --radius:18px;
+  --f-display:"Chakra Petch", "Zen Kaku Gothic New", system-ui, sans-serif;
+  --f-body:"Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--ink);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.8;}
+body::before{content:"";position:fixed;inset:0;background:
+    radial-gradient(900px 500px at 18% -8%,rgba(92,225,255,.10),transparent 60%),
+    radial-gradient(700px 420px at 100% 10%,rgba(255,134,201,.07),transparent 55%);
+  pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));padding-block:0 72px}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+p{text-wrap:pretty}
 
-    main {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 24px 16px 60px;
-    }
+/* header */
+header{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:16px max(20px,env(safe-area-inset-left,0px));margin:0 max(-20px,calc(-1*env(safe-area-inset-left,0px))) 0;
+  background:rgba(9,12,22,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{font-family:var(--f-display);font-weight:700;font-size:1.15rem;letter-spacing:.04em}
+.logo span{color:var(--cyan)}
+nav{display:flex;gap:4px;flex-wrap:wrap;font-size:.86rem}
+nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:999px;transition:color .15s,background-color .15s}
+nav a:hover{color:var(--fg);background:var(--panel-hi)}
 
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 20px;
-    }
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding-block:64px 48px}
+.hero > *{min-width:0}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.1em;color:var(--cyan)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(2.1rem,5.4vw,3.3rem);line-height:1.22;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--cyan)}
+.lead{color:var(--muted);max-width:32em;margin:0 0 30px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;font-weight:700;font-size:.92rem;text-decoration:none;
+  border:1px solid var(--cyan);color:var(--ink);background:var(--cyan);border-radius:999px;transition:filter .15s,transform .15s}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line-hi)}
+.btn.ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:scale(.98)}
 
-    .card {
-        background: var(--card-bg);
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        display: flex;
-        flex-direction: column;
-    }
-    .card-thumb {
-        height: 140px;
-        background: #e3e8ee;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 40px;
-    }
-    .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
-    .card-body h2 { margin: 0; font-size: 16px; }
-    .card-body p { margin: 0; font-size: 13px; color: var(--sub); line-height: 1.5; }
-    .price { margin-top: auto; font-weight: bold; color: var(--accent); font-size: 14px; }
+/* キャラ起動画面：このページで唯一、装飾を効かせる場所 */
+.boot{position:relative;border:1px solid var(--line-hi);border-radius:var(--radius);background:linear-gradient(180deg,var(--panel-hi),var(--panel));padding:18px;font-family:var(--f-mono);font-size:.8rem;overflow:hidden}
+.boot::before,.boot::after{content:"";position:absolute;width:16px;height:16px;border:2px solid var(--cyan);opacity:.8}
+.boot::before{top:10px;left:10px;border-right:0;border-bottom:0}
+.boot::after{bottom:10px;right:10px;border-left:0;border-top:0}
+.boot-top{display:flex;justify-content:space-between;color:var(--muted);margin-bottom:12px}
+.live{color:var(--cyan)}
+.live::before{content:"●";margin-right:6px;animation:blink 1.6s infinite}
+.stage{position:relative;aspect-ratio:4/5;max-width:100%;overflow:hidden;border-radius:12px;border:1px solid var(--line);background:radial-gradient(circle at 50% 60%,#1c2550 0%,var(--ink) 75%)}
+canvas#holo{position:absolute;inset:0;width:100%;height:100%}
+.stage .scan{position:absolute;left:0;right:0;height:30%;background:linear-gradient(transparent,rgba(92,225,255,.12),transparent);animation:scan 4s linear infinite}
+.stage .ph{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:var(--muted);font-size:.68rem;letter-spacing:.1em}
+.nina{position:absolute;left:50%;bottom:9%;height:84%;aspect-ratio:264/560;max-width:100%;transform:translateX(-50%);
+  background:url(nina_idle.webp) 0 0/600% 600% no-repeat;filter:drop-shadow(0 0 18px rgba(92,225,255,.25))}
+.nina.talk{background-image:url(nina_talk.webp);background-size:600% 400%}
+.bubble{margin-top:12px;padding:10px 12px;border-radius:10px;border-left:2px solid var(--pink);background:var(--ink2);color:var(--fg);font-family:var(--f-body);font-size:.9rem;min-height:3.2em}
+.moods{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.mood{font-family:var(--f-mono);font-size:.72rem;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.mood[aria-pressed="true"]{border-color:var(--pink);color:var(--pink)}
+@keyframes blink{50%{opacity:.2}}
+@keyframes scan{from{top:-30%}to{top:100%}}
 
-    .note {
-        margin: 24px 0;
-        padding: 14px 16px;
-        background: #fff8e1;
-        border: 1px solid #ffe082;
-        border-radius: 10px;
-        font-size: 13px;
-        color: #7a5b00;
-    }
+/* sections */
+section{padding-block:60px;border-top:1px solid var(--line)}
+.sec-head{margin-bottom:32px}
+.sec-head h2{font-family:var(--f-display);font-size:1.55rem;margin:0 0 4px;letter-spacing:.02em;font-weight:700}
+.sec-head .jp{color:var(--muted);font-size:.92rem}
 
-    footer {
-        text-align: center;
-        padding: 20px;
-        font-size: 12px;
-        color: var(--sub);
-    }
+/* character */
+.chara{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.chara > *{min-width:0}
+.chara p{margin:0 0 16px;max-width:34em}
+.spec{width:100%;border-collapse:collapse;font-size:.9rem}
+.spec th,.spec td{text-align:left;padding:11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.spec th{font-weight:500;font-size:.8rem;color:var(--muted);width:7.5em;padding-right:12px}
+.tag{display:inline-block;font-size:.78rem;padding:3px 10px;margin:0 6px 6px 0;border-radius:999px;background:rgba(255,134,201,.12);color:var(--pink)}
+
+/* 広告枠 */
+.ad{border:1px dashed var(--line-hi);border-radius:var(--radius);padding:26px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.ad .tag-ad{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;color:var(--muted);border:1px solid var(--line-hi);border-radius:999px;padding:2px 10px;margin-bottom:10px;display:inline-block}
+.ad h3{margin:0 0 6px;font-size:1.15rem}
+.ad p{margin:0;color:var(--muted);font-size:.9rem;max-width:34em}
+.ad .btn{flex:none}
+
+/* gadgets */
+.ftabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.ftab{font-size:.84rem;padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:999px;cursor:pointer;display:flex;gap:8px;align-items:baseline}
+.ftab b{font-weight:700;color:inherit}
+.ftab[aria-selected="true"]{color:var(--ink);background:var(--cyan);border-color:var(--cyan)}
+.gfile{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:grid;grid-template-columns:1.05fr .95fr;gap:30px}
+.gfile > *{min-width:0}
+.gfile-head{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline}
+.gfile-head h3{font-family:var(--f-display);font-size:clamp(1.4rem,3.2vw,1.9rem);color:var(--fg);margin:0;letter-spacing:.01em;width:100%;line-height:1.2}
+.chip{font-size:.74rem;padding:3px 10px;border-radius:999px;background:var(--panel-hi)}
+.chip.ok{color:var(--hud)}.chip.wip{color:var(--cyan)}.chip.plan{color:var(--pink)}
+.viz{position:relative;border:1px solid var(--line);border-radius:14px;background:radial-gradient(circle at 50% 35%,#16224a 0%,var(--ink) 75%);aspect-ratio:5/4;max-width:100%;overflow:hidden}
+.viz img.char{position:absolute;right:-4%;bottom:0;height:96%;width:auto;max-width:none;filter:drop-shadow(0 0 16px rgba(70,235,120,.25))}
+.viz svg{position:absolute;left:4%;top:8%;width:62%;height:auto;overflow:visible}
+.hot{cursor:pointer}
+.hot circle.ring{fill:var(--ink);stroke:var(--cyan);stroke-width:2}
+.hot text{font-family:var(--f-mono);font-size:11px;fill:var(--cyan);letter-spacing:.06em}
+.hot[aria-pressed="true"] circle.ring{fill:var(--cyan)}
+.hot[aria-pressed="true"] text{fill:var(--fg)}
+.hot:focus-visible{outline:none}.hot:focus-visible circle.ring{stroke:var(--fg);stroke-width:3}
+.readout{position:absolute;left:4%;bottom:5%;width:56%;font-size:.8rem;line-height:1.6;color:var(--hud);background:rgba(6,24,12,.86);border-radius:10px;border:1px solid var(--hud);padding:10px 12px}
+.readout b{display:block;color:var(--fg);font-size:.88rem;margin-bottom:2px}
+.term{font-size:.9rem;margin:0;padding:0;list-style:none;display:grid;gap:2px}
+.term li{display:flex;gap:10px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line)}
+.term .k{color:var(--muted);flex:none;width:5.5em;font-size:.82rem}
+.term .v{color:var(--fg);min-width:0}
+.term .v em{font-style:normal;color:var(--hud)}
+.voice{display:grid;gap:10px;margin-top:20px}
+.say{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.say .who{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;color:var(--pink);padding-top:11px;width:5em}
+.say.op .who{color:var(--cyan)}
+.say p{margin:0;padding:10px 12px;border-radius:10px;background:var(--panel);border-left:2px solid var(--pink);font-size:.92rem}
+.say.op p{border-left-color:var(--cyan)}
+.ep{display:flex;gap:14px;align-items:center;margin-top:20px;padding:10px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--fg);transition:border-color .15s}
+.ep:hover{border-color:var(--cyan)}
+.ep img{width:68px;height:auto;aspect-ratio:4/5;border-radius:6px}
+.ep small{display:block;font-size:.76rem;color:var(--muted)}
+.ep span{font-weight:700}
+.ep .arrow{margin-left:auto;color:var(--cyan)}
+.gfile[hidden]{display:none}
+
+/* apps / games 共通 2カラム */
+.apps{display:grid;grid-template-columns:.9fr 1.1fr;gap:32px;align-items:start}
+.apps > *{min-width:0}
+.lens{position:relative;background:#03070a;border:10px solid #0d0f14;border-radius:44px 44px 56px 56px/40px 40px 60px 60px;aspect-ratio:4/3;max-width:100%;overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+.hudbox{position:absolute;inset:12% 9% 14%;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;color:var(--hud);text-shadow:0 0 8px rgba(70,235,120,.55)}
+.hudbox .st{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;opacity:.8;position:absolute;top:0;left:0}
+.hudbox .ln{font-size:.95rem;line-height:1.5;min-height:1.5em}
+.hudbox .ln.hint{border-top:1px solid rgba(70,235,120,.45);padding-top:6px;font-weight:700}
+.lens-cap{font-size:.84rem;color:var(--muted);margin-top:10px}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.steps li{display:grid;grid-template-columns:auto 1fr;gap:3px 16px;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.steps .no{grid-row:span 3;font-family:var(--f-display);font-weight:700;font-size:1.3rem;color:var(--cyan);line-height:1;min-width:2em}
+.steps h3{margin:0;font-size:1.02rem;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.steps p{margin:0;color:var(--muted);font-size:.9rem}
+.stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.stack span{font-size:.74rem;padding:3px 10px;border-radius:999px;background:var(--panel-hi);color:var(--muted)}
+
+/* サイドストーリー ミニギャラリー */
+.manga-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0 0}
+.manga-strip a{display:block;border:1px solid var(--line);border-radius:10px;background:var(--panel);line-height:0;overflow:hidden;transition:border-color .15s}
+.manga-strip img{width:100%;height:auto;display:block;aspect-ratio:1080/1350;object-fit:cover}
+.manga-strip a:hover{border-color:var(--pink)}
+
+/* services（受託開発） */
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.svc{padding:24px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);display:flex;flex-direction:column;gap:8px}
+.svc h3{margin:0;font-size:1.05rem}
+.svc p{margin:0;color:var(--muted);font-size:.88rem}
+.svc .eg{margin-top:auto;font-size:.76rem;color:var(--cyan)}
+.services-cta{margin-top:22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.services-cta p{margin:0;color:var(--muted);font-size:.88rem}
+
+/* about */
+.about{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;align-items:center}
+.about > *{min-width:0}
+.avatar{position:relative;margin:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:8px;overflow:hidden}
+.avatar img{display:block;width:100%;height:auto;aspect-ratio:1024/559;border-radius:12px}
+.avatar figcaption{font-size:.78rem;color:var(--muted);padding-top:8px}
+.avatar.tall img{aspect-ratio:1024/1820}
+.about p{margin:0 0 14px;max-width:36em}
+.likes{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.likes li{font-size:.84rem;padding:5px 13px;background:var(--panel);border:1px solid var(--line);border-radius:999px}
+
+/* sns */
+.sns{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sns a{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px;text-decoration:none;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);transition:border-color .15s}
+.sns a:hover{border-color:var(--cyan)}
+.sns .name{font-family:var(--f-display);font-size:1.3rem;font-weight:700}
+.sns .desc{display:block;color:var(--muted);font-size:.85rem;margin-top:4px}
+.sns .arrow{color:var(--cyan);font-size:1.3rem}
+
+footer{padding-block:28px 0;border-top:1px solid var(--line);font-family:var(--f-mono);font-size:.72rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+@media (max-width:820px){
+  .hero,.chara,.sns,.gfile,.apps,.about{grid-template-columns:1fr}
+  .hero{padding-block:36px 24px;gap:28px}
+  .services{grid-template-columns:1fr 1fr}
+  .manga-strip{grid-template-columns:1fr 1fr}
+}
+@media (max-width:540px){
+  .services{grid-template-columns:1fr}
+  nav{gap:2px}
+  nav a{padding:7px 10px;font-size:.82rem}
+  .readout{width:auto;right:4%}
+  .viz svg{width:78%}
+  .viz img.char{height:80%;opacity:.55}
+  .gfile{padding:18px}
+  .ad{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  .live::before,.stage .scan{animation:none}
+}
 </style>
-</head>
-<body>
 
-<header>
-    <h1>ガジェット紹介サイト</h1>
-    <p>お気に入りのガジェットをまとめていくページ(仮)</p>
-</header>
+<div class="wrap">
+  <header>
+    <div class="logo">GADGE<span>LAB</span></div>
+    <nav aria-label="ページ内リンク">
+      <a href="#character">キャラクター</a>
+      <a href="#gadgets">ガジェット</a>
+      <a href="#apps">自作アプリ</a>
+      <a href="#games">ゲーム</a>
+      <a href="#services">開発受託</a>
+      <a href="#about">自己紹介</a>
+      <a href="#sns">SNS</a>
+    </nav>
+  </header>
 
-<main>
-    <div class="note">
-        これは仮のページです。ここに実際のガジェット情報・写真を追加していきます。
+  <div class="hero">
+    <div>
+      <div class="eyebrow">AI CHARACTER × GADGET REVIEW</div>
+      <h1>AIキャラと一緒に、<em>最新ガジェット</em>を語る。</h1>
+      <p class="lead">Blenderで作った3DのAIキャラクターが、気になるガジェットを一緒に試してリアクションします。アニメ好き・ガジェット好きの人に向けて、Instagram と YouTube で発信中。</p>
+      <div class="cta">
+        <a class="btn" href="#sns">フォローする →</a>
+        <a class="btn ghost" href="#character">キャラを見る</a>
+      </div>
     </div>
 
-    <div class="grid" id="gadget-grid">
-        <div class="card">
-            <div class="card-thumb">🎧</div>
-            <div class="card-body">
-                <h2>サンプルガジェットA</h2>
-                <p>ここに特徴や感想を書きます。使ってみた印象、良かった点など。</p>
-                <div class="price">¥0,000</div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-thumb">⌨️</div>
-            <div class="card-body">
-                <h2>サンプルガジェットB</h2>
-                <p>ここに特徴や感想を書きます。使ってみた印象、良かった点など。</p>
-                <div class="price">¥0,000</div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-thumb">📱</div>
-            <div class="card-body">
-                <h2>サンプルガジェットC</h2>
-                <p>ここに特徴や感想を書きます。使ってみた印象、良かった点など。</p>
-                <div class="price">¥0,000</div>
-            </div>
-        </div>
+    <div class="boot" aria-label="キャラクター表示エリア">
+      <div class="boot-top"><span>NINA // CODY-27</span><span class="live">ONLINE</span></div>
+      <div class="stage">
+        <canvas id="holo" aria-hidden="true"></canvas>
+        <div class="scan"></div>
+        <div class="nina" id="nina" role="img" aria-label="ヘッドホンを付けた青い髪のAIキャラクター、ニナ"></div>
+        <div class="ph">TAP A MOOD ↓</div>
+      </div>
+      <div class="bubble" id="bubble" aria-live="polite">ニナだよ！今日はどのガジェットを試してみる？</div>
+      <div class="moods" role="group" aria-label="感情モード">
+        <button class="mood" aria-pressed="true" data-say="ニナだよ！今日はどのガジェットを試してみる？">喜び</button>
+        <button class="mood" aria-pressed="false" data-say="えっ、このサイズでこの性能！？ちょっと待って、もう一回見せて！">驚き</button>
+        <button class="mood" aria-pressed="false" data-say="べ、別に新作が気になってるわけじゃないんだからね…。">照れ</button>
+        <button class="mood" aria-pressed="false" data-say="うーん、バッテリー持ちはもう少し頑張ってほしいかな。">考え中</button>
+      </div>
     </div>
-</main>
+  </div>
 
-<footer>
-    © 2026 ガジェット紹介サイト
-</footer>
+  <section id="character">
+    <div class="sec-head"><h2>CHARACTER</h2><span class="jp">キャラクター紹介</span></div>
+    <div class="chara">
+      <div>
+        <p>このチャンネルの相棒、AIキャラクターの「ニナ」です。Blenderで3Dモデルを作り、キャラクターハウス「コーディ27」で動かしています。名前は、生まれたデバイスの「27」から付けました。</p>
+        <p>話しかけると、その時の気分に合わせて喜んだり驚いたり。ガジェットの感想も、キャラ自身の言葉で返してくれます。</p>
+      </div>
+      <table class="spec">
+        <tr><th>NAME</th><td>ニナ（NINA）</td></tr>
+        <tr><th>ORIGIN</th><td>コーディ27の「27」から命名</td></tr>
+        <tr><th>MODEL</th><td>Blender製 オリジナル3Dモデル（アニメ調レンダリング）</td></tr>
+        <tr><th>LOOK</th><td>青い髪・青い瞳・光るヘッドホン</td></tr>
+        <tr><th>DEVICE</th><td>コーディ27（キャラクターハウス）</td></tr>
+        <tr><th>EMOTION</th><td><span class="tag">喜び</span><span class="tag">驚き</span><span class="tag">照れ</span><span class="tag">考え中</span></td></tr>
+        <tr><th>LIKES</th><td>新しいガジェット、アニメの話</td></tr>
+      </table>
+    </div>
+  </section>
 
-</body>
-</html>
+  <section id="gadgets">
+    <div class="sec-head"><h2>GADGETS</h2><span class="jp">ガジェット紹介</span></div>
+    <div class="ftabs" role="tablist" aria-label="ガジェットファイル">
+      <button class="ftab" role="tab" id="tab-g02" aria-selected="true" aria-controls="g02">Rokid Glasses</button>
+      <button class="ftab" role="tab" id="tab-g01" aria-selected="false" aria-controls="g01">ワイヤレスイヤホン</button>
+    </div>
+
+    <article class="gfile" id="g02" role="tabpanel" aria-labelledby="tab-g02">
+      <div class="gfile-head">
+        <span class="chip ok">REVIEWED</span>
+        <h3>Rokid Glasses</h3>
+      </div>
+      <div class="viz">
+        <img class="char" src="rokid_nina.webp" alt="Rokid Glassesをかけて、緑の表示が光っているニナ" width="595" height="700" loading="lazy">
+        <svg viewBox="0 0 360 200" role="img" aria-label="Rokid Glassesの正面図。押すと各部の説明が出ます">
+          <g fill="none" stroke="#e6ebff" stroke-width="5" stroke-linejoin="round">
+            <rect x="34" y="62" width="126" height="86" rx="30"/><rect x="200" y="62" width="126" height="86" rx="30"/>
+            <path d="M44 63 H152 M208 63 H318" stroke-width="9"/>
+            <path d="M160 86 Q180 76 200 86"/><path d="M34 80 L4 70 M326 80 L356 70"/>
+          </g>
+          <g fill="none" stroke="var(--hud)" stroke-width="2.5" opacity=".9">
+            <rect x="66" y="100" width="62" height="30" rx="5"/><rect x="232" y="100" width="62" height="30" rx="5"/>
+            <path d="M74 110 h40 M74 120 h26 M240 110 h40 M240 120 h30"/>
+          </g>
+          <circle cx="180" cy="78" r="8" fill="#0a0e1c" stroke="#e6ebff" stroke-width="3"/><circle cx="180" cy="78" r="3" fill="var(--cyan)"/>
+          <g class="hot" tabindex="0" role="button" aria-pressed="false" data-k="cam"><line x1="180" y1="70" x2="180" y2="28" stroke="var(--cyan)" stroke-width="1.5"/><circle class="ring" cx="180" cy="22" r="8"/><text x="194" y="26">CAMERA</text></g>
+          <g class="hot" tabindex="0" role="button" aria-pressed="true" data-k="hud"><line x1="263" y1="130" x2="263" y2="176" stroke="var(--cyan)" stroke-width="1.5"/><circle class="ring" cx="263" cy="182" r="8"/><text x="277" y="186">DISPLAY</text></g>
+          <g class="hot" tabindex="0" role="button" aria-pressed="false" data-k="mic"><line x1="20" y1="76" x2="20" y2="176" stroke="var(--cyan)" stroke-width="1.5"/><circle class="ring" cx="20" cy="182" r="8"/><text x="34" y="186">MIC ×4</text></g>
+          <g class="hot" tabindex="0" role="button" aria-pressed="false" data-k="wt"><circle class="ring" cx="97" cy="22" r="8"/><text x="111" y="26">49g</text></g>
+        </svg>
+        <div class="readout" id="readout" aria-live="polite"><b>緑一色のMicro-LED表示</b>視界の中に文字が浮かぶ。字幕・翻訳・ナビをレンズ越しに読める。</div>
+      </div>
+      <div>
+        <ul class="term">
+          <li><span class="k">重さ</span><span class="v">約49g。ふつうのメガネとほぼ同じ感覚</span></li>
+          <li><span class="k">表示</span><span class="v"><em>緑一色</em>のMicro-LED（両目）</span></li>
+          <li><span class="k">マイク</span><span class="v">4つ＋AIノイズ低減。雑音の中でも声を拾う</span></li>
+          <li><span class="k">AI</span><span class="v">文字起こし・翻訳（最大89言語）・会議の要約</span></li>
+          <li><span class="k">カメラ</span><span class="v">正面中央に1200万画素</span></li>
+        </ul>
+        <div class="voice">
+          <div class="say"><span class="who">NINA</span><p>聞こえない声が、目の前に文字で出てくるの。これ、すごくない？</p></div>
+          <div class="say op"><span class="who">OPERATOR</span><p>実際にこのグラスで動く「会話アシスト」アプリを自作中。表示が緑だけなのも、慣れると読みやすいです。</p></div>
+        </div>
+        <a class="ep" href="https://www.instagram.com/" target="_blank" rel="noopener">
+          <img src="ep2_cover.webp" alt="漫画 第2話「音のない街」の表紙" width="432" height="540" loading="lazy">
+          <span><small>登場回 / EP.2</small>第2話「音のない街」を読む</span><span class="arrow">↗</span>
+        </a>
+      </div>
+    </article>
+
+    <article class="gfile" id="g01" role="tabpanel" aria-labelledby="tab-g01" hidden>
+      <div class="gfile-head">
+        <span class="chip wip">製品名は準備中</span>
+        <h3>ワイヤレスイヤホン</h3>
+      </div>
+      <div class="viz">
+        <svg viewBox="0 0 360 200" role="img" aria-label="ワイヤレスイヤホンと充電ケースの線画">
+          <g fill="none" stroke="#e6ebff" stroke-width="5" stroke-linecap="round">
+            <rect x="110" y="110" width="140" height="78" rx="38"/><path d="M112 140 H248" stroke-width="3"/>
+            <circle cx="140" cy="48" r="20"/><path d="M146 66 L160 104"/>
+            <circle cx="220" cy="48" r="20"/><path d="M214 66 L200 104"/>
+          </g>
+          <circle cx="180" cy="164" r="5" fill="var(--cyan)"/>
+          <path d="M96 40 l-16 -8 M98 60 l-18 2 M264 40 l16 -8 M262 60 l18 2" stroke="var(--cyan)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div class="readout"><b>ノイズキャンセリング</b>まわりの雑音を消して、聞きたい音だけを残す。</div>
+      </div>
+      <div>
+        <ul class="term">
+          <li><span class="k">機能</span><span class="v">ノイズキャンセリング：まわりの雑音を消す</span></li>
+          <li><span class="k">機能</span><span class="v">外音取り込み：必要な音だけ聞こえる</span></li>
+          <li><span class="k">状態</span><span class="v">レビューする製品を選定中。決まり次第ここに載せます</span></li>
+        </ul>
+        <div class="voice">
+          <div class="say"><span class="who">NINA</span><p>最初は髪の毛につけちゃった……。耳はこっちだったね。</p></div>
+        </div>
+        <a class="ep" href="https://www.instagram.com/" target="_blank" rel="noopener">
+          <img src="ep1_cover.webp" alt="漫画 第1話「27番目のわたし」の表紙" width="432" height="540" loading="lazy">
+          <span><small>登場回 / EP.1</small>第1話「27番目のわたし」を読む</span><span class="arrow">↗</span>
+        </a>
+      </div>
+    </article>
+  </section>
+
+  <section id="apps">
+    <div class="sec-head"><h2>LAB</h2><span class="jp">自作アプリ</span></div>
+    <div class="apps">
+      <div>
+        <div class="lens" aria-label="スマートグラスの表示のイメージ（デモ）">
+          <div class="hudbox">
+            <span class="st">● 会話アシスト / 文字起こし中</span>
+            <div class="ln" id="hud-a">相手：来週の打ち合わせ、資料は事前にもらえますか？</div>
+            <div class="ln hint" id="hud-b">ヒント：「金曜までにPDFで送りますね」</div>
+          </div>
+        </div>
+        <p class="lens-cap">DEMO // 表示はイメージです。実際の画面とは異なります</p>
+      </div>
+      <ol class="steps">
+        <li><span class="no">1</span><h3>会話アシスト <span class="chip ok">動作中</span></h3><p>相手の声をグラスのマイクで拾って文字にし、返事のヒントを目の前に出します。人と話すときの「あれ、何て言われた？」を減らすためのアプリ。</p><div class="stack"><span>Rokid Glasses</span><span>Android</span><span>Gemini API</span></div></li>
+        <li><span class="no">2</span><h3>用語メモ <span class="chip wip">開発中</span></h3><p>会話に出てきた専門用語をその場で調べて表示。話が終わったら要約して、Googleドキュメントにメモとして残します。</p><div class="stack"><span>第1弾を改良</span><span>Google ドキュメント</span></div></li>
+        <li><span class="no">3</span><h3>落ち着いて返す <span class="chip plan">構想中</span></h3><p>相手の言葉から、いまの論点・まず聞くこと・落ち着いた返し方を順に表示。「次の例」で別の言い方も出せるようにする予定です。</p><div class="stack"><span>別アプリとして開発予定</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="games">
+    <div class="sec-head"><h2>GAMES</h2><span class="jp">クイズゲーム</span></div>
+    <div class="apps">
+      <div>
+        <figure class="avatar tall">
+          <img src="quiztower_cover.webp" alt="QUIZ TOWERのタイトル画面。塔の前に立つ緑髪のキャラクターと「QUIZ TOWER」のロゴ" width="1024" height="1820" loading="lazy">
+          <figcaption>QUIZ TOWER // 百問耐久クイズ</figcaption>
+        </figure>
+      </div>
+      <div>
+        <p>自作の無料クイズゲーム「QUIZ TOWER」。塔の最上階にいる黒竜から知恵の光を取り戻すため、家来となってクイズで戦っていくブラウザゲームです。ブラウザですぐ遊べます。</p>
+        <ol class="steps">
+          <li><span class="no">下層</span><h3>やさしい問題 <span class="chip ok">無料プレイ</span></h3><p>定番クイズ中心。スライムなどの雑魚キャラと戦いながらウォーミングアップ。</p></li>
+          <li><span class="no">中層</span><h3>ひねった問題 <span class="chip wip">歯ごたえアップ</span></h3><p>知識＋ちょっとした雑学問題。敵も少しずつ強くなっていく。</p></li>
+          <li><span class="no">最上階</span><h3>黒竜との決戦 <span class="chip plan">ラスボス</span></h3><p>全100問耐久の集大成。知恵の光を取り戻せるか！？</p></li>
+        </ol>
+        <div class="cta" style="margin-top:18px">
+          <a class="btn" href="https://mukai599.github.io/ninadamon-tower/" target="_blank" rel="noopener">ブラウザで遊ぶ →</a>
+          <a class="btn ghost" href="https://drive.google.com/file/d/1POo2qCv0XKe4s-b2WczIjLPPpUBZD8ym/view?usp=sharing" target="_blank" rel="noopener">完全攻略ガイド PDF ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="lens-cap" style="margin-top:28px">EXTRA // 番外編マンガ「ニナだもんと答えの塔」── ニナが旅の途中でこのゲームの世界に迷い込む、本編「ニナと26の消えた世界」とは別のお楽しみストーリー</p>
+    <div class="manga-strip">
+      <a href="side1_p1.webp" target="_blank" rel="noopener"><img src="side1_p1.webp" alt="番外編1ページ目：世界のあいだを旅するニナと、QUIZ TOWERで遊ぶ作者" loading="lazy"></a>
+      <a href="side1_p2.webp" target="_blank" rel="noopener"><img src="side1_p2.webp" alt="番外編2ページ目：ニナだもんに変身したニナがタワーの前に立つ" loading="lazy"></a>
+      <a href="side1_p3.webp" target="_blank" rel="noopener"><img src="side1_p3.webp" alt="番外編3ページ目：姫に家来として指名され、スライムと戦うニナだもん" loading="lazy"></a>
+      <a href="side1_p4.webp" target="_blank" rel="noopener"><img src="side1_p4.webp" alt="番外編4ページ目：クイズに正解してスライムを倒し、前編につづく" loading="lazy"></a>
+    </div>
+  </section>
+
+  <section id="ad-slot" aria-label="広告掲載について">
+    <div class="ad">
+      <div>
+        <span class="tag-ad">AD</span>
+        <h3>この枠に、あなたの広告を。</h3>
+        <p>AIキャラ×ガジェットレビューを見てくれる人に届けます。ガジェット・アプリ・ゲーム関連の掲載、お気軽にご相談ください。</p>
+      </div>
+      <a class="btn ghost" href="https://www.instagram.com/" target="_blank" rel="noopener">広告掲載の相談をする →</a>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="sec-head"><h2>DEV SERVICES</h2><span class="jp">アプリ開発、受け付けます</span></div>
+    <p style="color:var(--muted);max-width:40em;margin:-14px 0 28px">自作アプリ・AIキャラ・3DCGで培ったノウハウを使って、業務用のアプリ開発も承っています。小さなツールから、キャラクター連携まで。</p>
+    <div class="services">
+      <div class="svc">
+        <h3>教育アプリ</h3>
+        <p>学習の進捗管理、宿題の提出・リマインド、単語・用語の反復学習など。生徒・先生どちらにも使いやすい画面設計。</p>
+        <div class="eg">例：学習進捗ダッシュボード</div>
+      </div>
+      <div class="svc">
+        <h3>病院・クリニックの予約受付</h3>
+        <p>オンライン予約、問診票の事前入力、来院前のリマインド通知まで。受付のやり取りを減らすアプリを作ります。</p>
+        <div class="eg">例：予約受付＋問診フォーム</div>
+      </div>
+      <div class="svc">
+        <h3>AIキャラ連携アプリ</h3>
+        <p>ニナのように、自作のAIキャラと組み合わせたアプリ・Webサービス。ガジェット連携や音声アシストにも対応。</p>
+        <div class="eg">例：キャラ付き会話アシスト</div>
+      </div>
+    </div>
+    <div class="services-cta">
+      <a class="btn" href="https://www.instagram.com/" target="_blank" rel="noopener">ご相談・お見積りはこちら →</a>
+      <p>まずは気軽に、作りたいものをDMで教えてください。</p>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="sec-head"><h2>ABOUT</h2><span class="jp">自己紹介</span></div>
+    <div class="about">
+      <figure class="avatar">
+        <img src="me.webp" alt="ヘッドホンを首にかけたレッサーパンダが、ノートパソコンの前で手を振っているイラスト" width="1024" height="559" loading="lazy">
+        <figcaption>OPERATOR // ME</figcaption>
+      </figure>
+      <div>
+        <p>はじめまして。ガジェットとアニメが大好きな会社員です。自分で作ったAIキャラクターと一緒に、気になるガジェットを実際に使ってレビューしています。スマートグラス用のアプリも自作中。同じ趣味の人とつながれたら嬉しいです。</p>
+        <ul class="likes">
+          <li>ガジェット</li><li>アニメ</li><li>3DCG（Blender）</li><li>AI</li><li>アプリ開発</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="sns">
+    <div class="sec-head"><h2>FOLLOW</h2><span class="jp">SNS</span></div>
+    <div class="sns">
+      <a href="https://www.instagram.com/" target="_blank" rel="noopener">
+        <span><span class="name">Instagram</span><span class="desc">短い動画とキャラの日常を毎週投稿</span></span>
+        <span class="arrow">↗</span>
+      </a>
+      <a href="https://www.youtube.com/" target="_blank" rel="noopener">
+        <span><span class="name">YouTube</span><span class="desc">キャラと一緒のガジェットレビュー動画</span></span>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <footer><span>© 2026 GADGELAB</span><span>SYSTEM VER. 0.2</span></footer>
+</div>
+
+<script>
+// ニナのアニメーション（12fps・24コマのスプライト）
+const nina=document.getElementById('nina'), bubble=document.getElementById('bubble');
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+new Image().src='nina_talk.webp';
+// 待機：36コマ（6×6、まばたき入り）／会話：24コマ（6×4）
+const LOOPS={idle:{n:36,rows:6},talk:{n:24,rows:4}};
+let frame=0, mode='idle', talkUntil=0, typeTimer=null;
+function show(i){const L=LOOPS[mode], c=i%6, r=Math.floor(i/6);nina.style.backgroundPosition=`${c*20}% ${r*(100/(L.rows-1))}%`;}
+if(!reduceMotion){
+  setInterval(()=>{
+    const next=performance.now()<talkUntil?'talk':'idle';
+    if(next!==mode){mode=next;frame=-1;nina.classList.toggle('talk',mode==='talk');}
+    frame=(frame+1)%LOOPS[mode].n; show(frame);
+  },1000/12);
+}
+function say(text){
+  clearInterval(typeTimer);
+  if(reduceMotion){bubble.textContent=text;return;}
+  let n=0; bubble.textContent='';
+  talkUntil=performance.now()+text.length*70+400;
+  typeTimer=setInterval(()=>{bubble.textContent=text.slice(0,++n);if(n>=text.length)clearInterval(typeTimer);},70);
+}
+document.querySelectorAll('.mood').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.mood').forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true');
+    say(b.dataset.say);
+  });
+});
+setTimeout(()=>say(bubble.textContent),600);
+
+
+// ガジェットファイルのタブ
+const tabs=[...document.querySelectorAll('.ftab')];
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>{const on=x===t;x.setAttribute('aria-selected',on);document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});
+}));
+// グラス各部の説明
+const INFO={
+  cam:['正面中央のカメラ','1200万画素。見ているものをそのまま撮れる。撮影中は周りに分かるようランプが点く。'],
+  hud:['緑一色のMicro-LED表示','視界の中に文字が浮かぶ。字幕・翻訳・ナビをレンズ越しに読める。'],
+  mic:['マイク4つ＋AIノイズ低減','雑音の多い場所でも、話している人の声を拾って文字にできる。'],
+  wt:['約49gの軽さ','ふつうのメガネとほぼ同じ感覚で、一日かけていられる。']
+};
+const ro=document.getElementById('readout');
+document.querySelectorAll('.hot').forEach(h=>{
+  const pick=()=>{document.querySelectorAll('.hot').forEach(x=>x.setAttribute('aria-pressed',x===h));const [t,d]=INFO[h.dataset.k];ro.innerHTML='<b>'+t+'</b>'+d;};
+  h.addEventListener('click',pick);
+  h.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
+});
+// レンズのデモ表示
+(function(){
+  const A=document.getElementById('hud-a'),B=document.getElementById('hud-b');
+  const LINES=[
+    ['相手：来週の打ち合わせ、資料は事前にもらえますか？','ヒント：「金曜までにPDFで送りますね」'],
+    ['相手：この件、KPIってどう置いてます？','用語：KPI＝目標の達成度をはかる指標'],
+    ['相手：ちょっと急ぎでお願いしたくて……','ヒント：まず「いつまでに必要ですか？」と聞く']
+  ];
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let i=0;
+  setInterval(()=>{
+    i=(i+1)%LINES.length; const [a,b]=LINES[i]; let n=0; A.textContent=''; B.textContent='';
+    const tm=setInterval(()=>{n++; A.textContent=a.slice(0,n); if(n>=a.length){clearInterval(tm); setTimeout(()=>{B.textContent=b;},500);}},45);
+  },6000);
+})();
+
+// ホログラム風のワイヤー台座（キャラ画像の仮置き）
+(function(){
+  const c=document.getElementById('holo'),x=c.getContext('2d');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let t=0;
+  function size(){const r=c.getBoundingClientRect(),d=devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;x.setTransform(d,0,0,d,0,0);}
+  function draw(){
+    const w=c.clientWidth,h=c.clientHeight;x.clearRect(0,0,w,h);
+    const cx=w/2,cy=h*.89;
+    for(let i=0;i<5;i++){
+      const rx=w*(.14+i*.07),ry=rx*.22;
+      x.strokeStyle=`rgba(92,225,255,${.55-i*.09})`;x.lineWidth=1;
+      x.beginPath();x.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);x.stroke();
+    }
+    // 光の柱
+    const g=x.createLinearGradient(0,cy,0,h*.12);
+    g.addColorStop(0,'rgba(92,225,255,.28)');g.addColorStop(1,'rgba(92,225,255,0)');
+    x.fillStyle=g;x.beginPath();x.moveTo(cx-w*.14,cy);x.lineTo(cx-w*.2,h*.12);x.lineTo(cx+w*.2,h*.12);x.lineTo(cx+w*.14,cy);x.fill();
+    // 浮遊する粒
+    for(let i=0;i<24;i++){
+      const px=cx+Math.sin(i*2.1+t*.6)*w*.17,py=cy-((i*37+t*18)%(h*.62));
+      x.fillStyle=i%4?'rgba(92,225,255,.7)':'rgba(255,134,201,.8)';
+      x.fillRect(px,py,2,2);
+    }
+    t+=.016;if(!reduce)requestAnimationFrame(draw);
+  }
+  size();addEventListener('resize',size);draw();
+})();
+</script>
+
+</body></html>
