@@ -197,16 +197,40 @@ section{padding-block:60px;border-top:1px solid var(--line)}
 .sns .desc{display:block;color:var(--muted);font-size:.85rem;margin-top:4px}
 .sns .arrow{color:var(--cyan);font-size:1.3rem}
 
+/* story（マンガ・アニメ） */
+.eps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.epc{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;text-decoration:none;color:var(--fg);transition:border-color .15s}
+a.epc:hover{border-color:var(--pink)}
+.epc img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;display:block}
+.epc .body{padding:16px 18px 20px;display:grid;gap:6px}
+.epc small{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;color:var(--pink)}
+.epc h3{margin:0;font-size:1.05rem;line-height:1.4}
+.epc p{margin:0;color:var(--muted);font-size:.86rem}
+.epc.soon{border-style:dashed;justify-content:center;align-items:flex-start;padding:24px;min-height:220px;gap:10px}
+.story-note{margin:22px 0 0;color:var(--muted);font-size:.9rem;max-width:42em}
+
+/* goals */
+.goals{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.goal{padding:24px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);display:grid;gap:8px;align-content:start}
+.goal .no{font-family:var(--f-display);font-weight:700;font-size:1.3rem;color:var(--cyan);line-height:1}
+.goal h3{margin:0;font-size:1.05rem}
+.goal p{margin:0;color:var(--muted);font-size:.88rem}
+.purpose{margin:0 0 28px;padding:20px 24px;border-left:2px solid var(--cyan);background:var(--panel);border-radius:0 var(--radius) var(--radius) 0;font-size:1.02rem;max-width:44em}
+.roadmap{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:10px}
+.roadmap li{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+.roadmap .chip{justify-self:start}
+
 footer{padding-block:28px 0;border-top:1px solid var(--line);font-family:var(--f-mono);font-size:.72rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
 @media (max-width:820px){
   .hero,.chara,.sns,.gfile,.apps,.about{grid-template-columns:1fr}
   .hero{padding-block:36px 24px;gap:28px}
-  .services{grid-template-columns:1fr 1fr}
+  .services,.eps,.goals{grid-template-columns:1fr 1fr}
   .manga-strip{grid-template-columns:1fr 1fr}
 }
 @media (max-width:540px){
-  .services{grid-template-columns:1fr}
+  .services,.eps,.goals{grid-template-columns:1fr}
+  .sns{grid-template-columns:1fr}
   nav{gap:2px}
   nav a{padding:7px 10px;font-size:.82rem}
   .readout{width:auto;right:4%}
@@ -226,10 +250,12 @@ footer{padding-block:28px 0;border-top:1px solid var(--line);font-family:var(--f
     <nav aria-label="ページ内リンク">
       <a href="#character">キャラクター</a>
       <a href="#gadgets">ガジェット</a>
+      <a href="#story">物語</a>
       <a href="#apps">自作アプリ</a>
       <a href="#games">ゲーム</a>
       <a href="#services">開発受託</a>
       <a href="#about">自己紹介</a>
+      <a href="#goals">目標</a>
       <a href="#sns">SNS</a>
     </nav>
   </header>
@@ -238,7 +264,7 @@ footer{padding-block:28px 0;border-top:1px solid var(--line);font-family:var(--f
     <div>
       <div class="eyebrow">AI CHARACTER × GADGET REVIEW</div>
       <h1>AIキャラと一緒に、<em>最新ガジェット</em>を語る。</h1>
-      <p class="lead">Blenderで作った3DのAIキャラクターが、気になるガジェットを一緒に試してリアクションします。アニメ好き・ガジェット好きの人に向けて、Instagram と YouTube で発信中。</p>
+      <p class="lead">Blenderで作った3DのAIキャラクターが、気になるガジェットを一緒に試してリアクションします。アニメ好き・ガジェット好きの人に向けて、Instagram・YouTube・X で発信していきます。</p>
       <div class="cta">
         <a class="btn" href="#sns">フォローする →</a>
         <a class="btn ghost" href="#character">キャラを見る</a>
@@ -367,6 +393,26 @@ footer{padding-block:28px 0;border-top:1px solid var(--line);font-family:var(--f
     </article>
   </section>
 
+  <section id="story">
+    <div class="sec-head"><h2>STORY</h2><span class="jp">ニナの物語（マンガ・アニメ）</span></div>
+    <div class="eps">
+      <a class="epc" href="https://www.instagram.com/" target="_blank" rel="noopener">
+        <img src="ep1_cover.webp" alt="漫画 第1話「27番目のわたし」の表紙" width="432" height="540" loading="lazy">
+        <div class="body"><small>EP.1 / MANGA</small><h3>27番目のわたし</h3><p>ニナが生まれた日の物語。イヤホンを髪の毛につけてしまう、ちょっと抜けた初日から。</p></div>
+      </a>
+      <a class="epc" href="https://www.instagram.com/" target="_blank" rel="noopener">
+        <img src="ep2_cover.webp" alt="漫画 第2話「音のない街」の表紙" width="432" height="540" loading="lazy">
+        <div class="body"><small>EP.2 / MANGA</small><h3>音のない街</h3><p>Rokid Glassesと一緒に、聞こえない声を文字にして届ける回。</p></div>
+      </a>
+      <div class="epc soon">
+        <small>ANIME / COMING SOON</small>
+        <h3>アニメーション化を目指しています</h3>
+        <p>まずはマンガで世界観を広げて、ゆくゆくは動くニナを。完成したらここと各SNSでお知らせします。</p>
+      </div>
+    </div>
+    <p class="story-note">本編「ニナと26の消えた世界」では、ニナが世界をめぐりながらガジェットと出会っていきます。番外編「ニナだもんと答えの塔」は <a href="#games">GAMES</a> のページで読めます。</p>
+  </section>
+
   <section id="apps">
     <div class="sec-head"><h2>LAB</h2><span class="jp">自作アプリ</span></div>
     <div class="apps">
@@ -473,15 +519,34 @@ footer{padding-block:28px 0;border-top:1px solid var(--line);font-family:var(--f
     </div>
   </section>
 
+  <section id="goals">
+    <div class="sec-head"><h2>GOALS</h2><span class="jp">目標と目的</span></div>
+    <p class="purpose">好きなガジェットとAIを、自作キャラ「ニナ」と一緒に、楽しく分かりやすく届けたい。マンガやアニメの物語を通して、ガジェットのおもしろさに出会える場所をつくります。</p>
+    <div class="goals">
+      <div class="goal"><span class="no">01</span><h3>ガジェットを、わかりやすく</h3><p>AI関連ガジェットを実際に使って、キャラのリアクションつきで紹介。次はRokid Glassesと、自作のグラス用アプリを紹介します。</p></div>
+      <div class="goal"><span class="no">02</span><h3>物語で、世界観を広げる</h3><p>ニナの物語をマンガから始めて、最終的にはアニメーションに。ずんだもんも、ニナの先輩としてたまに登場します。</p></div>
+      <div class="goal"><span class="no">03</span><h3>仲間を増やす</h3><p>まずはこのホームページへの来訪者とフォロワーを増やして、同じ趣味の人とつながることが当面の目標です。</p></div>
+    </div>
+    <ol class="roadmap">
+      <li><span class="chip ok">いま</span><span>Instagram（リール）で土台づくり。宣伝動画は X でも発信</span></li>
+      <li><span class="chip wip">次</span><span>YouTube でキャラと一緒のガジェットレビューを本格化</span></li>
+      <li><span class="chip plan">その先</span><span>ニナのアニメーション化、自作アプリ・ゲームの拡充</span></li>
+    </ol>
+  </section>
+
   <section id="sns">
     <div class="sec-head"><h2>FOLLOW</h2><span class="jp">SNS</span></div>
     <div class="sns">
       <a href="https://www.instagram.com/" target="_blank" rel="noopener">
-        <span><span class="name">Instagram</span><span class="desc">短い動画とキャラの日常を毎週投稿</span></span>
+        <span><span class="name">Instagram</span><span class="desc">リール動画とキャラの日常、マンガの更新</span></span>
         <span class="arrow">↗</span>
       </a>
       <a href="https://www.youtube.com/" target="_blank" rel="noopener">
         <span><span class="name">YouTube</span><span class="desc">キャラと一緒のガジェットレビュー動画</span></span>
+        <span class="arrow">↗</span>
+      </a>
+      <a href="https://x.com/" target="_blank" rel="noopener">
+        <span><span class="name">X</span><span class="desc">宣伝動画・更新のお知らせ</span></span>
         <span class="arrow">↗</span>
       </a>
     </div>
