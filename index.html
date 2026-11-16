@@ -190,7 +190,7 @@ section{padding-block:60px;border-top:1px solid var(--line)}
 .likes li{font-size:.84rem;padding:5px 13px;background:var(--panel);border:1px solid var(--line);border-radius:999px}
 
 /* sns */
-.sns{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sns{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
 .sns a,.sns .soon{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px;text-decoration:none;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);transition:border-color .15s}
 .sns a:hover{border-color:var(--cyan)}
 .sns .name{font-family:var(--f-display);font-size:1.3rem;font-weight:700}
@@ -259,6 +259,7 @@ footer{padding-block:28px 0;border-top:1px solid var(--line);font-family:var(--f
       <a href="#recorders">ボイスレコーダー比較</a>
       <a href="#cody27">CODY-27</a>
       <a href="#services">開発受託</a>
+      <a href="#mission">目標</a>
       <a href="#about">自己紹介</a>
       <a href="#sns">SNS</a>
     </nav>
@@ -268,7 +269,7 @@ footer{padding-block:28px 0;border-top:1px solid var(--line);font-family:var(--f
     <div>
       <div class="eyebrow">AI CHARACTER × GADGET REVIEW</div>
       <h1>AIキャラと一緒に、<em>最新ガジェット</em>を語る。</h1>
-      <p class="lead">Blenderで作った3DのAIキャラクターが、気になるガジェットを一緒に試してリアクションします。アニメ好き・ガジェット好きの人に向けて、Instagram と YouTube で発信中。</p>
+      <p class="lead">Blenderで作った3DのAIキャラクターが、気になるガジェットを一緒に試してリアクションします。アニメ好き・ガジェット好きの人に向けて、Instagram・YouTube・X で発信していきます。</p>
       <div class="cta">
         <a class="btn" href="#sns">フォローする →</a>
         <a class="btn ghost" href="#character">キャラを見る</a>
@@ -561,6 +562,19 @@ footer{padding-block:28px 0;border-top:1px solid var(--line);font-family:var(--f
     </div>
   </section>
 
+  <section id="mission">
+    <div class="sec-head"><h2>MISSION</h2><span class="jp">このサイトの目的と目標</span></div>
+    <div class="about">
+      <div>
+        <p><b>目的：</b>AIキャラクターのニナと一緒に、ガジェットの「使ってみてどうだったか」を正直に伝えること。あわせて、ニナが登場するマンガやアニメで、AIと人が並んで歩く世界を描いていくことです。</p>
+        <p><b>目標：</b>ガジェット紹介・マンガ・アニメを続けて発信し、同じ趣味の人とつながるコミュニティに育てること。まずは Instagram・YouTube・X で、無理のないペースで更新を続けます。</p>
+      </div>
+      <ul class="likes">
+        <li>ガジェットを実際に試してレビュー</li><li>ニナの物語をマンガ・アニメで発信</li><li>Instagram・YouTube・X で交流</li><li>自作アプリ・ゲームも公開</li>
+      </ul>
+    </div>
+  </section>
+
   <section id="about">
     <div class="sec-head"><h2>ABOUT</h2><span class="jp">自己紹介</span></div>
     <div class="about">
@@ -586,6 +600,10 @@ footer{padding-block:28px 0;border-top:1px solid var(--line);font-family:var(--f
       </div>
       <div class="soon">
         <span><span class="name">YouTube</span><span class="desc">キャラと一緒のガジェットレビュー動画</span></span>
+        <span class="arrow soon-badge">近日開設</span>
+      </div>
+      <div class="soon">
+        <span><span class="name">X</span><span class="desc">新作マンガ・アニメ・ガジェットの更新情報をお知らせ</span></span>
         <span class="arrow soon-badge">近日開設</span>
       </div>
     </div>
